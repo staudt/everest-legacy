@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+	<head>
+		<title>Test Report</title>
+		<style>
+			body { font-family: arial, sans-serif; font-size: 12px; }
+			table { border-collapse: collapse; margin-bottom: 8px; margin-left: 4px; width: 100% }
+			.table_block { width: 680px; }
+			td { padding: 5px; vertical-align: top; }
+			th { padding: 5px; vertical-align: top; background-color: #666666; color: #ffffff; font-weight: normal; text-align:left; }
+			.th_passed { background-color: #00aa00; width: 1px; font-weight: bold; }
+			.th_failed { background-color: #aa0000; width: 1px; font-weight: bold; }
+			.td_print { background-color: #ffffcc; }
+			table,th, td { border: 1px solid #000000; }
+			div { padding: 0px; spacing: 0px; }
+			pre { margin:0px; padding: 0px; overflow-y:auto;overflow-x:auto;width:420px;max-height:200px; }
+		</style>
+		<script>
+			function toggle(element) {
+                if (document.getElementById(element).style.display != 'block') {
+					document.getElementById(element).style.display='block';
+				} else {
+					document.getElementById(element).style.display='none';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Test Report</h1><br>
+		<h2>Test Cases</h2>
+			<table class="table_block">
+				<tr><th>Test Case</th><th>Result</th><th>Description</th></tr>
+				
+
+
+
+<tr><td><a href="#t0x02813738">run001</a></td><td><font color="#ff0000">FAILED</font></td><td>This is a importable request</td></tr>
+
+<tr><td><a href="#t0x02813788">run_now</a></td><td>Passed</td><td>hello, im the the test case description</td></tr>
+<tr><td><a href="#t0x028139E0">feed_from_csv</a></td><td>Passed</td><td></td></tr>
+			</table>
+		<br><hr>
+		<h2>Details</h2> <table class="table_block"><tr><th class="th_failed">Block</th><td><b>tests\samples\sample.xml</b></td><td></td></tr><tr><td colspan="3">
+
+<table><tr><th width="1">Var</th><td><pre>my_var = value</pre></td></tr></table>
+<table><tr><th width="1">Print</th><td class="td_print"><b>my_var value is value</b></td></tr></table>
+<table class="table_block"><tr><th class="th_failed"><a name="t0x02813738">Test&nbsp;Case</th><td><b>run001</b> (<font color="#ff0000">FAILED</font>)</td><td>This is a importable request </td></tr><tr><td colspan="3">
+<table><tr><th class="th_failed">Request</th><td><b>run001</b> (<font color="#ff0000">FAILED</font>)</td><td>This is a importable request</td></tr><tr><th>Request</th><td colspan="2">
+		<table>
+			<th>Path</th><td>http://127.0.0.1/user/</td></tr>
+			<tr><th>Method</th><td>POST</td></tr>
+			<tr><th>Headers</th><td><pre>X-UserTag: xxx
+</pre></td></tr>
+			<tr><th>Body</th><td><pre></pre></td></tr>
+			<tr><th>Variables</th><td><a href="javascript:toggle('v1632d7c4-35d6-4cec-b922-a57ed2eb8b02');" style="color: #666666;">show/hide</a><div id="v1632d7c4-35d6-4cec-b922-a57ed2eb8b02" style="display: none"><pre>status = ---
+my_var = value
+random = 522e63cbfbb94cfca76a288b576e45cf
+my_local_var = xxx
+result = --Unkown Assertion Type--
+</pre></div></td></tr>
+			<tr><th>Source Code</th><td><a href="javascript:toggle('s1632d7c4-35d6-4cec-b922-a57ed2eb8b02');" style="color: #666666;">show/hide</a><div id="s1632d7c4-35d6-4cec-b922-a57ed2eb8b02" style="display: none"><pre>&lt;var name=&quot;result&quot;&gt;--Unkown Assertion Type--&lt;/var&gt;
+&lt;var name=&quot;my_local_var&quot;&gt;xxx&lt;/var&gt;
+&lt;var name=&quot;random&quot;&gt;522e63cbfbb94cfca76a288b576e45cf&lt;/var&gt;
+&lt;var name=&quot;my_var&quot;&gt;value&lt;/var&gt;
+&lt;var name=&quot;status&quot;&gt;---&lt;/var&gt;
+
+&lt;Template id=&quot;default&quot;&gt;	
+		&lt;path&gt;/user&lt;/path&gt;&lt;method&gt;POST&lt;/method&gt;
+	&lt;/Template&gt;
+	
+	
+&lt;Request extends=&quot;default&quot; id=&quot;run001&quot;&gt;
+		&lt;var name=&quot;my_local_var&quot;&gt;xxx&lt;/var&gt;	
+		
+		&lt;desc&gt;This is a importable request&lt;/desc&gt;
+		&lt;path&gt;/user/{{ path }}&lt;/path&gt;	
+		&lt;method&gt;POST&lt;/method&gt;
+		&lt;body null=&quot;True&quot; /&gt; 
+		
+		
+		&lt;ClearHeaders /&gt;	
+		&lt;Header name=&quot;X-UserTag&quot;&gt;{{ my_local_var }}&lt;/Header&gt;	
+		
+		
+		&lt;ClearAssertions /&gt;	
+		&lt;ClearAssertionType&gt;Status&lt;/ClearAssertionType&gt; 
+		&lt;ClearAssertionTypes&gt;Status|BodyXPaContains&lt;/ClearAssertionTypes&gt; 
+		&lt;Assert save-global=&quot;status&quot; type=&quot;Status&quot;&gt;200&lt;/Assert&gt;	
+		&lt;Assert parameter=&quot;//data&quot; save-var=&quot;result&quot; type=&quot;BodyXPathContains&quot;&gt;001&lt;/Assert&gt;	
+	&lt;/Request&gt;
+
+	
+	
+	
+	</pre></div></td></tr>
+		</table> </td></tr><tr><th>Response</th><td colspan="2">
+		<table>
+			<tr><th>Status</th><td>---</td></tr>
+			<tr><th>Headers</th><td><pre>connection: error
+</pre></td></tr>
+			<tr><th>Performance</th><td>0:00:01.171000</td></tr>
+			<tr><th>Body</th><td><pre>(&lt;class &#39;httplib2.socks.HTTPError&#39;&gt;, HTTPError((503, &#39;Service Unavailable&#39;),), &lt;traceback object at 0x028C5738&gt;)</pre></td></tr>
+		</table> </td></tr><tr><th>Assertions</th><td colspan="2"><table>
+			<tr><th>Status</th><th>Type</th><th>Expected</th><th>Received</th></tr> <tr><td><font color="#ff0000">FAILED</font></td><td>Status </td><td><pre style="width: 240px">[&#39;200&#39;]</pre></td><td><pre style="width: 240px">---</pre> <font style="color: #666666">(saved as global <b>status</b>)</font></td></tr><tr><td><font color="#ff0000">FAILED</font></td><td>BodyXPathContains </td><td><pre style="width: 240px">001</pre></td><td><pre style="width: 240px">--Unkown Assertion Type--</pre> <font style="color: #666666">(saved as variable <b>result</b>)</font></td></tr> </table>
+		</td></tr></table></td></tr></table>
+<table><tr><th width="1">Sleep</th><td>5 seconds</td></tr></table>
+<table class="table_block"><tr><th class="th_passed"><a name="t0x02813788">Test&nbsp;Case</th><td><b>run_now</b> (Passed)</td><td>hello, im the the test case description </td></tr><tr><td colspan="3">
+<table><tr><th width="1">Var</th><td><pre>path = hello</pre></td></tr></table>
+<table><tr><th width="1">Print</th><td class="td_print"><b>result from function base was: </b></td></tr></table></td></tr></table>
+<table class="table_block"><tr><th class="th_passed"><a name="t0x028139E0">Test&nbsp;Case</th><td><b>feed_from_csv</b> (Passed)</td><td> </td></tr><tr><td colspan="3">
+<table><tr><th width="1">Var</th><td><pre>country_name = </pre></td></tr></table>
+<table><tr><th width="1">Print</th><td class="td_print"><b>Current country is </b></td></tr></table></td></tr></table></td></tr></table>
+	</body>
+	</html>

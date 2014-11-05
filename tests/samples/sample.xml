@@ -1,0 +1,56 @@
+<TestSet>
+	<!--<Include file="templates/mytemplate.xml" repeat="false"/>-->	<!-- Templates can be included, the repeat attribute ensures it won't be included again -->
+	<!--<Include file="testsets/extend.xml" />--> <!-- will include the file content here (inline) -->
+
+	<Template id="default">	<!-- a template is a request that doesn't run, it is meant to be extended -->
+		<path>/user</path>
+		<method>POST</method>
+	</Template>
+	
+	<var name="my_var">value</var>	<!-- a global variable -->
+	
+	<print>my_var value is {{ my_var }}</print>	<!-- prints a relevant information to the console and report -->
+
+	<Request id="run001" extends="default">
+		<var name="my_local_var">xxx</var>	<!-- internal var (only usable inside the request and it's children) -->
+		
+		<desc>This is a importable request</desc>
+		<path>/user/{{ path }}</path>	<!-- uses the var set by who runs it -->
+		<method>POST</method>
+		<body null="True"/> <!-- tags can now also be nullified instead of just emptied -->
+		
+		<ClearHeaders/>	<!-- clear all previous headers (including those extended) -->
+		<Header name="X-UserTag">{{ my_local_var }}</Header>	<!-- set a new header, using a variable as value -->
+		
+		<ClearAssertions/>	<!-- clear all previous asserts, or... -->
+		<ClearAssertionType>Status</ClearAssertionType> <!-- clear all previous assertions with type Status -->
+		<ClearAssertionTypes>Status|BodyXPaContains</ClearAssertionTypes> <!-- clear all lists of previous assertions separated by | -->
+		<assert type="Status" save-global="status">200</assert>	<!-- save-global will store the query result to the global variable "Status" -->
+		<assert type="BodyXPathContains" parameter="//data" save-var="result">001</assert>	<!-- save-var saves as a testcase var -->
+	</Request>
+
+	<!-- Will run a internal function called "GetEmail" that can return a value that can be saved as var/global -->
+	<Callfunction name="GetEmail" source="samples/sample_callfunction.py" save-global="usertag"> 
+		<desc>gets email</desc>
+		<param name="email">hello@world.com</param>
+		<param name="retries">3</param>
+	</CallFunction>
+	
+	<sleep>5</sleep>
+
+	<TestCase id="run_now">	<!-- test cases groups vars and requests -->
+		<desc>hello, im the the test case description</desc>
+		
+		<var name="path">hello</var> <!-- this testcase-wide var that will be used within it -->
+
+		<print>result from function base was: {{ result }}</print>	<!-- using a variable set by the function -->
+		
+		<!--<Include file="testset/includes/repeatable_tests.xml"/>--> <!-- you can also add a file content to complete your code -->
+	</TestCase>
+
+	<TestCase id="feed_from_csv" csv="countries.csv">
+	<!-- the csv attribute allows you to feed variables from a csv. The first line is the name of the variable from each column, each line is a new test case-->
+		<print>Current country is {{country_name}}</print>
+	</TestCase>
+	
+</TestSet>
