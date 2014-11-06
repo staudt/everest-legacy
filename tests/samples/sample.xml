@@ -17,7 +17,6 @@
 		<desc>This is a importable request</desc>
 		<path>/user/{{ path }}</path>	<!-- uses the var set by who runs it -->
 		<method>POST</method>
-		<body null="True"/> <!-- tags can now also be nullified instead of just emptied -->
 		
 		<ClearHeaders/>	<!-- clear all previous headers (including those extended) -->
 		<Header name="X-UserTag">{{ my_local_var }}</Header>	<!-- set a new header, using a variable as value -->
@@ -30,11 +29,11 @@
 	</Request>
 
 	<!-- Will run a internal function called "GetEmail" that can return a value that can be saved as var/global -->
-	<Callfunction name="GetEmail" source="samples/sample_callfunction.py" save-global="usertag"> 
+	<!--<CallFunction name="GetEmail" file="samples/sample_callfunction.py" save-global="usertag"> 
 		<desc>gets email</desc>
 		<param name="email">hello@world.com</param>
 		<param name="retries">3</param>
-	</CallFunction>
+	</CallFunction>-->
 	
 	<sleep>5</sleep>
 
@@ -45,12 +44,11 @@
 
 		<print>result from function base was: {{ result }}</print>	<!-- using a variable set by the function -->
 		
-		<!--<Include file="testset/includes/repeatable_tests.xml"/>--> <!-- you can also add a file content to complete your code -->
 	</TestCase>
 
-	<TestCase id="feed_from_csv" csv="countries.csv">
+	<!--<TestCase id="feed_from_csv" csv="countries.csv">-->
 	<!-- the csv attribute allows you to feed variables from a csv. The first line is the name of the variable from each column, each line is a new test case-->
-		<print>Current country is {{country_name}}</print>
-	</TestCase>
+		<!--<print>Current country is {{country_name}}</print>
+	</TestCase>-->
 	
 </TestSet>

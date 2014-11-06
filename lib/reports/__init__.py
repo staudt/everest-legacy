@@ -1,5 +1,5 @@
 from datetime import datetime
-import html, junit, xunit
+import html, xunit
 
 def generate(runner, testset_file, filename=None):
 	extensions = []
@@ -9,9 +9,6 @@ def generate(runner, testset_file, filename=None):
 		if ext.lower() == 'html':
 			with open('%s.html' % filename, 'wb') as f: f.write(html.report(runner))
 			extensions.append('html')
-		elif ext.lower() == 'junit':
-			with open('%s.junit' % filename, 'wb') as f: f.write(junit.report(runner))
-			extensions.append('junit')
 		elif ext.lower() == 'xunit':
 			with open('%s.xunit' % filename, 'wb') as f: f.write(xunit.report(runner))
 			extensions.append('xunit')
