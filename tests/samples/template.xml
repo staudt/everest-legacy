@@ -1,0 +1,20 @@
+<testset>
+
+	<template id="Default"> 	<!-- this is a generic template for all other templates -->
+		<header name="User-Agent">Everest/1.0</header>
+	</template>
+
+	<template id="GooglePage" extends="Default">
+		<path full="true">http://www.google.com/</path>
+		<method>GET</method>
+		<assertion type="Status">200</assertion>
+	</template>
+
+	<template id="GoogleSearch" extends="Default">
+		<var name="query">Default</var> 	<!-- this is the default value for query -->
+		<path full="true">http://www.google.com/search?q={{ query }}</path> <!-- uses the variable query -->
+		<method>GET</method>
+		<assertion type="Status">200</assertion>
+	</template>
+
+</testset>

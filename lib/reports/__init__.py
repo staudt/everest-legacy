@@ -5,6 +5,7 @@ def generate(runner, testset_file, filename=None):
 	extensions = []
 	if not filename: filename = 'reports/%s %s' % (str(datetime.now()).replace(':','-').split('.')[0],
 										str(testset_file).replace('\\', '/').split('/')[-1].split('.')[0])
+	filename = filename.replace(' ', '_')
 	for ext in runner.report_formats:
 		if ext.lower() == 'html':
 			with open('%s.html' % filename, 'wb') as f: f.write(html.report(runner))

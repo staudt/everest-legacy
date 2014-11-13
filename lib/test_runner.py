@@ -185,13 +185,13 @@ def merge_dicts(dict1, dict2, dict3=None):
 
 def save_file(filename, content):
 	try:
-		if not os.path.exists('resources/saved_files'): os.makedirs('resources/saved_files')
-		f = open('resources/saved_files/%s' % filename, 'wb')
+		if not os.path.exists('resources/saved'): os.makedirs('resources/saved')
+		f = open('resources/saved/%s' % filename, 'wb')
 		f.write(content)
 		f.close()
-		return True, '(saved file resources/saved_files/%s)' % filename
+		return True, '(saved file resources/saved/%s)' % filename
 	except:
-		return False, '*Error* Could not save file to resources/saved_files/%s' % filename
+		return False, '*Error* Could not save file to resources/saved/%s' % filename
 
 def match_tags(tags, tc_tags):
 	for t in tags:
