@@ -124,6 +124,7 @@ def run_block(runner, block):
 			if ('set-cookie' in step.resp_headers.keys()):
 				http.save_cookie(runner.base_url, step.resp_headers['set-cookie'])
 			for a in step.assertions:
+				if not a.value: a.value = ''
 				a.value = jinja2.Template(a.value).render(step.context_vars)
 				if not assertions.run_assertion(a, step):
 					step.passed = False
