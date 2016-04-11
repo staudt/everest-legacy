@@ -41,7 +41,7 @@ def element_testcase(main, parent, element):
 	if 'id' not in element.attrib.keys(): return False, 'TestCase tag missing attribute "id"'
 	if 'csv' in element.attrib.keys():
 		try:
-			csv_reader = csv.reader(open('tests/%s' % element.attrib['csv'], 'rb'))
+			csv_reader = csv.reader(open('tests/%s' % element.attrib['csv'], 'rb'), escapechar='\\')
 			loop_counter = 0
 			var_name = []
 			for line in csv_reader:
