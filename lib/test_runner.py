@@ -9,11 +9,12 @@ import xpath, jinja2
 import xmlparser, http, assertions, reports.html, callfunctions
 
 class Runner:
-	def __init__(self, base_url, proxy, other_base_urls, report_formats=None):
+	def __init__(self, base_url, proxy, other_base_urls, report_formats=None, test_dir='tests/'):
 		self.base_url, self.proxy, self.other_base_urls = base_url, proxy, other_base_urls
 		self.desc, self.steps = '', []
 		self.global_vars = {}
 		self.report_formats = report_formats
+		self.test_dir = test_dir
 		#try:
 			#log_format = '%(levelname)s:%(asctime)s:%(funcName)s:%(lineno)d: %(message)s'
 			#logging.basicConfig(filename='log/%s.log' % str(datetime.now()).split(' ')[0], level=logging.DEBUG, format=log_format)
@@ -166,6 +167,9 @@ def instantiate_runner(config_file):
 			else:
 				proxy = None
 		report_formats = cf.get('DEFAULT', 'REPORT_FORMATS')
+		test_dir = 'tests/'
+		if cf.has_option('DEFAULT', 'TEST-DIR'):
+			test_dir = cf.get('DEFAULT', 'TEST-DIR') + ('/' if not cf.get('DEFAULT', 'TEST-DIR').endswith('/') else '')
 		if report_formats: report_formats = report_formats.split(',')
 		#additional config sections
 		other_base_urls = {}
@@ -174,7 +178,7 @@ def instantiate_runner(config_file):
 				other_base_urls[i[0].lower()] = i[1]
 	except:
 		return None
-	return Runner(base_url, proxy, other_base_urls, report_formats)
+	return Runner(base_url, proxy, other_base_urls, report_formats, test_dir)
 
 def merge_dicts(dict1, dict2, dict3=None):
 	new_dict = {}

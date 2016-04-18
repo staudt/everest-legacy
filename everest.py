@@ -6,9 +6,9 @@ def main(testset_file, params):
 	config_file = 'default.cfg'
 	if 'config' in params.keys(): config_file = params['config']
 	runner = test_runner.instantiate_runner(config_file)
+	if not runner: return False, 'Couldn\'t load configuration file'
 	if 'base_url' in params.keys(): runner.base_url = params['base_url']
 	if 'proxy' in params.keys(): runner.proxy = params['proxy'].replace('http://', '')
-	if not runner: return False, 'Couldn\'t load configuration file'
 	worked, reason = runner.parse_testset(testset_file)
 	if not worked: return False, 'Failed parsing XML: %s' % reason
 

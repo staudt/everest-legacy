@@ -10,6 +10,8 @@ allowed_elements = ['include', 'testcase', 'template', 'request', 'var', 'print'
 # parent is the class that holds the elements (either Runner or TestCase)
 # element is the XML tag to be parsed
 
+test_dir = 'tests/'
+
 def get_tag_value(tag):
 	if tag.attrib.get('null'):
 		if tag.attrib['null'].lower() == 'true': return None
@@ -28,7 +30,7 @@ def element_include(main, parent, element):
 		parent_template = deepcopy(get_step(main, element.attrib['parent']))
 		parent_template.id = 'parent'
 		parent.steps.append(parent_template)
-	return parse_file(main, parent, 'tests/%s' % element.attrib['file'])
+	return parse_file(main, parent, '%s%s' % (test_dir, element.attrib['file']))
 
 def element_testcase(main, parent, element):
 	def fill_testcase(id, element):
@@ -41,7 +43,7 @@ def element_testcase(main, parent, element):
 	if 'id' not in element.attrib.keys(): return False, 'TestCase tag missing attribute "id"'
 	if 'csv' in element.attrib.keys():
 		try:
-			csv_reader = csv.reader(open('tests/%s' % element.attrib['csv'], 'rb'), escapechar='\\')
+			csv_reader = csv.reader(open('%s%s' % (test_dir, element.attrib['csv']), 'rb'), escapechar='\\')
 			loop_counter = 0
 			var_name = []
 			for line in csv_reader:
@@ -60,10 +62,10 @@ def element_testcase(main, parent, element):
 					loop_counter += 1
 			return True, ''
 		except:
-			return False, 'Unable to parse csv file "tests/%s"' % element.attrib['csv']
+			return False, 'Unable to parse csv file "%s%s"' % (test_dir, element.attrib['csv'])
 	else:
 		testcase = fill_testcase(element.attrib['id'], element)
-        parent.steps.append(testcase)
+		parent.steps.append(testcase)
 	return parse_children(main, testcase, element)
 
 def element_var(main, parent, element):
@@ -87,7 +89,7 @@ def element_sleep(main, parent, element):
 def element_callfunction(main, parent, element):
 	if 'name' not in element.attrib.keys(): return False, 'CallFunction tag missing attribute "name"'
 	if 'file' not in element.attrib.keys(): return False, 'CallFunction tag missing attribute "file"'
-	filename = 'tests/%s' % element.attrib['file']
+	filename = '%s%s' % (test_dir, element.attrib['file'])
 	try:
 	   with open(filename): pass
 	except IOError:
@@ -243,6 +245,8 @@ def parse_children(main, parent, root): # parent has to have parent.steps to fil
 	return True, ''
 
 def parse_file(main, parent, file):
+	if parent.__class__.__name__ == 'Runner':	# quick patch to support other test dirs, refactoring needed :P
+		test_dir = parent.test_dir
 	try:
 		root = ET.parse(file).getroot()
 	except Exception, e:
