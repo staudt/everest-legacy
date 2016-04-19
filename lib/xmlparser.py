@@ -245,6 +245,7 @@ def parse_children(main, parent, root): # parent has to have parent.steps to fil
 	return True, ''
 
 def parse_file(main, parent, file):
+	global test_dir
 	if parent.__class__.__name__ == 'Runner':	# quick patch to support other test dirs, refactoring needed :P
 		test_dir = parent.test_dir
 	try:
