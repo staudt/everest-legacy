@@ -95,6 +95,15 @@ def bodycontains(assertion, request):
 	assertion.expected, assertion.received = assertion.value, request.resp_body.strip()
 	assertion.passed = True if assertion.expected.lower() in assertion.received.decode(encoding='ascii', errors='replace').lower() else False
 
+def bodycontainsoneof(assertion, request):
+	assertion.expected, assertion.received = assertion.value, request.resp_body.strip()
+	found = False
+	for expect in assertion.expected.split("|"):
+		if expect.lower() in assertion.received.decode(encoding='ascii', errors='replace').lower():
+			assertion.passed = True
+			return
+	assertion.passed = False
+
 def bodylengthequals(assertion, request):
 	assertion.expected, assertion.received = assertion.value, request.resp_body.strip()
 	assertion.passed = True if len(assertion.received)==int(assertion.expected) else False
