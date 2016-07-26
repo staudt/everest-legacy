@@ -4,7 +4,9 @@ from xml.dom import minidom
 
 # IMPORTANT: Functions for assertions *MUST* be lower case
 
+##############################################################################
 # Status
+##############################################################################
 def status(assertion, request):
 	assertion.expected, assertion.received = str(assertion.value).split('|'), str(request.resp_status)
 	assertion.passed = True if assertion.received in assertion.expected else False
@@ -82,7 +84,9 @@ def headerkeyexists(assertion, request):
 	except:
 	   assertion.received, assertion.passed = 'Error parsing response', False
 
+##############################################################################
 # Body
+##############################################################################
 def bodyany(assertion, request):
 	assertion.expected, assertion.received = assertion.value, request.resp_body.strip()[:80]
 	assertion.passed = True
@@ -97,7 +101,6 @@ def bodycontains(assertion, request):
 
 def bodycontainsoneof(assertion, request):
 	assertion.expected, assertion.received = assertion.value, request.resp_body.strip()
-	found = False
 	for expect in assertion.expected.split("|"):
 		if expect.lower() in assertion.received.decode(encoding='ascii', errors='replace').lower():
 			assertion.passed = True
@@ -239,14 +242,6 @@ def filesizeemorethan(assertion, request):
 
 def filesizeelessthan(assertion, request):
 	return filesizeeequals(assertion, request, operator='<')
-
-# bodyxpathcontains, bodyxpathallcontains, bodyxpathallequalsoneof, bodyxpathallvaluesordered, bodyxpathallvaluesmorethan
-# bodyxpathallvalueslessthan, bodyxpathallvaluesmoreorequalsthan, bodyxpathallvalueslessorequalsthan, bodyxpathallvaluesequalsthan
-# bodyxpathvaluemorethan bodyxpathvaluemoreorequalsthan bodyxpathvaluelessthan
-
-# bodyregexequals bodyregexany bodyregexcountequals bodyregexcountlessthan bodyregexcountmorethan
-
-# timelessthan timemorethan bodymatchesschema
 
 # Body JsonPath
 def bodyjsonxpathbiggestany(assertion, request): return bodyjsonpathbiggestany(assertion, request)
